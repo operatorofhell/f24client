@@ -170,6 +170,8 @@ class F24Client {
 	/**
 	 *  calls sendAlarm
 	 *
+	 * @param int alert id
+	 *
 	 * @param string message
 	 *
 	 * @access public
@@ -177,13 +179,13 @@ class F24Client {
 	 * @throws SOAPFault
 	 *
 	 */
-	public function sendAlarm($message){
+	public function sendAlarm($alarmId, $message){
 
 
 		$action = array(
-					'activationAlarmNumber'	=> '1000',
+					'activationAlarmNumber'	=> $alarmId,
 					'variableMessages' 		=> array(
-						'language' 				=> 'DE',
+						'language' 			=> 'DE',
 						'languageContent'	=> array(
 							'textVoice' 			=> $message,
 							'textSms' 				=> $message,
