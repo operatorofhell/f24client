@@ -17,16 +17,38 @@ class F24Client {
 
 
 	/**
-     * String values for SOAP
+     * login values for SOAP
      * 
-     * - url 		URL to the WSDL on F24 api servers
-     * - ns 		name space of the F24 
      * - usename 	username for authentication
      * - password  	password for authentication
      *
      * @var array
      */
-	private $data = array();
+	private $loginData = array();
+
+	/**
+     * String values for SOAP
+     * 
+     * - url 		URL to the WSDL on F24 api servers
+     * - ns 		name space of the F24 
+     *
+     * @var array
+     */
+	private $soapData = array(
+		'url' 	=> 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1?wsdl',
+		'ns'	=> 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1'
+		);
+
+	/**
+	* String values for the header
+	*
+	* - sessionid 	the id returned by the login call
+	* - orgname 	the organizationName returned by the login call
+	* - timestamp 	time when session was initialized
+	*
+	* @var array
+	*/
+	private $header = array();
 
 	/**
      * The SOAP Client instance
@@ -34,6 +56,14 @@ class F24Client {
      * @var object
      */
 	private $SoapClient;
+
+	/**
+	*  storage file for header data
+	*
+	*  @var string
+	*
+	*/
+	private $storageFile;
 
     /**
      * Constructor instantiates SoapClient, authenticate against F24
@@ -48,61 +78,42 @@ class F24Client {
      *
      */
 	public function F24Client( $username, $password ) {
-	
-		$this->__set('url', 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1?wsdl');
-		$this->__set('ns', 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1');
-		
-		$this->__set('username', $username);
-		$this->__set('password', $password);
+
+		$this->loginData['username'] = $username;
+		$this->loginData['password'] = $password;
 
 		$this->createSoapClient();
 
-		$this->connect();
+		$this->storageFile = sys_get_temp_dir() . '/f24client.bin';
+
+		//check if session data is stored
+		if ( file_exists($this->storageFile) ){
+
+			//load session data from file
+			$this->header = unserialize(file_get_contents($this->storageFile));
+
+			//call login if session is not older than 10m
+			if( time() - $this->header['timestamp'] > 600 ){
+				$this->connect();
+			}
+		} else {
+			error_reporting( 'Cannot load file: ' . $this->storageFile, E_USER_NOTICE);
+		}
+		
 
 		$this->buildHeader();
 	}
 
+	/**
+	*	deconstructor
+	*/
 	function __destruct(){
+		if ( ! file_put_contents( $this->storageFile, serialize($this->header)) ) {
+			error_reporting('Cannot write file: ' . $this->storageFile, E_USER_WARNING);
+		}
 	}
 
-	/**
-	 *  Setter for $this->data values
-	 *
-	 * @access public
-	 *
-	 * @param string name
-	 * 
-	 * @param mixed value
-	 *
-	 */
-	function __set($name,$value){
-        $this->data[$name] = $value;
-	}
-
-	/**
-	 *  Getter for $this->data values
-	 *
-	 * @access public
-	 *
-	 * @param string name
-	 * 
-	 * @return mixed data element
-	 *
-	 */
-	public function __get($name){
-		if (array_key_exists($name, $this->data)) {
-            return $this->data[$name];
-        }
-
-        $trace = debug_backtrace();
-        trigger_error(
-            'Undefinierte Eigenschaft für __get(): ' . $name .
-            ' in ' . $trace[0]['file'] .
-            ' Zeile ' . $trace[0]['line'],
-            E_USER_NOTICE);
-        return null;
-	}
-
+	
 	/**
 	 *  creates the Soap Client Object
 	 *
@@ -115,7 +126,7 @@ class F24Client {
 		
 		try {
 			$this->SoapClient =  new SoapClient(
-					$this->__get('url'),
+					$this->soapData['url'],
 					array("trace" => 1, "exception" => 1)
 			);
 
@@ -137,8 +148,8 @@ class F24Client {
 
 			$result = $this->SoapClient->login(
 					array( 
-						'username' => $this->__get('username'),
-						'password' => $this->__get('password')
+						'username' => $this->loginData['username'],
+						'password' => $this->loginData['password']
 					)
 			);
 
@@ -149,18 +160,18 @@ class F24Client {
 
 
 			if ( isset( $result->sessionId )){
-					$this->__set('sessionid', $result->sessionId);
+					$this->header['sessionid'] = $result->sessionId;
 			} else {
 				trigger_error("No value Session ID ", E_USER_ERROR);
 			}
+
 			if ( isset( $result->organizationName )){
-					$this->__set('orgname', $result->organizationName);
+					$this->header['orgname'] = $result->organizationName;
 			} else {
 				trigger_error("No value organization Name ", E_USER_ERROR);
 			}
 
-			echo $this->__get('sessionid') ."\n";
-			echo $this->__get('orgname')."\n";
+			$this->header['timestamp'] = time();
 
 		} catch ( Exception $e){
 			$this->handleSoapError('logging in', $e);
@@ -238,7 +249,7 @@ class F24Client {
 		}
 
 		trigger_error( $msg, E_USER_ERROR);
-
+		var_dump($e);
 	}
 
 	/**
@@ -250,18 +261,20 @@ class F24Client {
 	 */
 	private function buildHeader(){
 
-		$ns = $this->__get('ns');
-
-		$aSID 	= array( 'sessionId' => new SOAPVar($this->__get('sessionid'), XSD_STRING, null, null, null, $ns));
-		$aORG  = array( 'organizationName' => new SOAPVar($this->__get('orgname'), XSD_STRING, null, null, null, $ns));
+		$aSID 	= array( 'sessionId' 		=> new SOAPVar(
+			$this->header['sessionid'], XSD_STRING, null, null, null, $this->soapData['ns'])
+		);
+		$aORG  	= array( 'organizationName' => new SOAPVar(
+			$this->header['orgname'], XSD_STRING, null, null, null, $this->soapData['ns'])
+		);
 
 		$oSID 	= new SOAPVar($aSID, SOAP_ENC_OBJECT);
 		$oORG 	= new SOAPVar($aORG, SOAP_ENC_OBJECT);
 
 		$this->SoapClient->__setSoapHeaders(
 			 array(
-				new SOAPHeader($ns, 'SessionHeader', $oSID),
-				new SOAPHeader($ns, 'LoginScopeHEader', $oORG)
+				new SOAPHeader($this->soapData['ns'], 'SessionHeader', $oSID),
+				new SOAPHeader($this->soapData['ns'], 'LoginScopeHEader', $oORG)
 				)
 		);
 	}
