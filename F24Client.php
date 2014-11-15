@@ -153,12 +153,6 @@ class F24Client {
 					)
 			);
 
-			if (is_soap_fault($result)) {
-    			trigger_error("SOAP-Fehler: (Fehlernummer: {$result->faultcode}, "
-        			."Fehlermeldung: {$result->faultstring})", E_USER_ERROR);
-			}
-
-
 			if ( isset( $result->sessionId )){
 					$this->header['sessionid'] = $result->sessionId;
 			} else {
