@@ -1,0 +1,1560 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://com.f24.soap.fwi.schema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://com.f24.soap.fwi.schema">
+<element name="ActivatedAlarmsRequest">
+<complexType>
+<choice>
+<element name="period" type="tns:Period"/>
+<element name="maxHoursAgo" type="int"/>
+</choice>
+</complexType>
+</element>
+<element name="ActivatableAlarmsRequest"/>
+<element name="AllActiveGroupsRequest"/>
+<element name="AllNotifiablePersonsRequest"/>
+<element name="AllDevicesForActivationRequest">
+<complexType>
+<sequence>
+<element name="activationAlarmNumber" type="tns:AlarmNumber"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="ActivationReferenceStr">
+<restriction base="string">
+<minLength value="1"/>
+</restriction>
+</simpleType>
+<element name="AllPersonsForMonitorAlarmRequest">
+<complexType>
+<sequence>
+<element name="alarmNumber" type="tns:AlarmNumber"/>
+<element name="activationReference" nillable="true" type="tns:ActivationReferenceStr"/>
+</sequence>
+</complexType>
+</element>
+<element name="AllPersonsForMonitorAlarmResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:MonitorPersonArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="MonitorPersonRequest">
+<complexType>
+<sequence>
+<element name="alarmNumber" type="tns:AlarmNumber"/>
+<element name="activationReference" nillable="true" type="tns:ActivationReferenceStr"/>
+<element name="personNumber" type="tns:PersonNumber"/>
+</sequence>
+</complexType>
+</element>
+<element name="MonitorPersonResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:MonitorPerson"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="MonitorAlarmDetailRequest">
+<complexType>
+<sequence>
+<element name="alarmNumber" type="tns:AlarmNumber"/>
+<element name="activationReference" nillable="true" type="tns:ActivationReferenceStr"/>
+</sequence>
+</complexType>
+</element>
+<element name="MonitorAlarmDetailResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:MonitorAlarmDetail"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="MonitorPersonArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:MonitorPerson"/>
+</sequence>
+</complexType>
+<complexType name="MonitorPerson">
+<sequence>
+<element name="number" type="tns:PersonNumber"/>
+<element name="name1" type="tns:PersonName"/>
+<element name="name2" nillable="true" type="tns:PersonName"/>
+<element name="language" type="string"/>
+<element name="extra" nillable="true" type="string"/>
+<element name="remarks" nillable="true" type="string"/>
+<element name="confirmationInput" nillable="true" type="string"/>
+<element name="arrivalTime" nillable="true" type="tns:ArrivalTime"/>
+<element name="notificationStatus" type="string"/>
+<element name="finished" type="boolean"/>
+<element name="lastUpdate" nillable="true" type="long"/>
+<element name="organisationalUnitId" type="long"/>
+<element name="devices" nillable="true" type="tns:MonitorPersonDeviceArray"/>
+</sequence>
+</complexType>
+<complexType name="ArrivalTime">
+<sequence>
+<element name="arrivalTime" type="long"/>
+</sequence>
+</complexType>
+<complexType name="MonitorPersonDevice">
+<sequence>
+<element name="name" type="tns:DeviceName"/>
+<element name="callingNumberOrEmail" type="string"/>
+<element name="notificationState" type="string"/>
+<element name="prio" nillable="true" type="int"/>
+<element name="maximumNumberOfTries" nillable="true" type="int"/>
+<element name="currentNumberOfTries" nillable="true" type="int"/>
+<element name="lastUpdate" nillable="true" type="long"/>
+</sequence>
+</complexType>
+<complexType name="MonitorPersonDeviceArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:MonitorPersonDevice"/>
+</sequence>
+</complexType>
+<simpleType name="EntityType">
+<restriction base="string">
+<enumeration value="ALARM"/>
+<enumeration value="GROUP"/>
+<enumeration value="PERSON"/>
+<enumeration value="DEVICE"/>
+<enumeration value="MESSAGE"/>
+<enumeration value="QUALIFICATION"/>
+<enumeration value="QUALIFICATION_VALUE"/>
+<enumeration value="REPORT_DEVICE"/>
+<enumeration value="THRESHOLD"/>
+<enumeration value="FILE"/>
+<enumeration value="DATA_EXPORT"/>
+<enumeration value="ACTIVATION_REFERENCE"/>
+<enumeration value="LOGICAL_UNIT_GROUP"/>
+<enumeration value="ENTERPRISE"/>
+<enumeration value="ORGANISATION"/>
+</restriction>
+</simpleType>
+<simpleType name="FileExtensions">
+<restriction base="string">
+<enumeration value="VOICE_FILE_EXTENSIONS"/>
+<enumeration value="FAX_FILE_EXTENSIONS"/>
+<enumeration value="ALL_FILE_EXTENSIONS"/>
+</restriction>
+</simpleType>
+<element name="FileExtension" type="tns:FileExtensions"/>
+<complexType name="ErrorEntity">
+<sequence>
+<element name="entityID" type="string"/>
+<element name="entityType" type="tns:EntityType"/>
+<element maxOccurs="unbounded" minOccurs="0" name="errors" nillable="true" type="tns:Error"/>
+</sequence>
+</complexType>
+<complexType name="ErrorEntityArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:ErrorEntity"/>
+</sequence>
+</complexType>
+<simpleType name="LanguageCode">
+<restriction base="string">
+<enumeration value="CA"/>
+<enumeration value="CS"/>
+<enumeration value="DE"/>
+<enumeration value="EN"/>
+<enumeration value="ES"/>
+<enumeration value="FR"/>
+<enumeration value="IT"/>
+<enumeration value="NL"/>
+<enumeration value="RU"/>
+</restriction>
+</simpleType>
+<simpleType name="CaseManagerAccessMode">
+<restriction base="string">
+<enumeration value="READ_WRITE"/>
+<enumeration value="READ"/>
+<enumeration value="NO_ACCESS"/>
+</restriction>
+</simpleType>
+<simpleType name="ConfirmationType">
+<restriction base="string">
+<enumeration value="EQUAL"/>
+<enumeration value="LESS"/>
+<enumeration value="GREATER"/>
+</restriction>
+</simpleType>
+<simpleType name="ConferenceMode">
+<restriction base="string">
+<enumeration value="MANAGED_CONFERENCE"/>
+<enumeration value="SIMPLE_CONFERENCE"/>
+</restriction>
+</simpleType>
+<simpleType name="ChildAlarmMode">
+<restriction base="string">
+<enumeration value="TOBEREACHED_LESSER_REACHED"/>
+<enumeration value="TOBEREACHED_GREATEROREQUAL_REACHED"/>
+</restriction>
+</simpleType>
+<simpleType name="ReportStyle">
+<restriction base="string">
+<enumeration value="INPUT_AS_ARRIVAL_TIME"/>
+<enumeration value="INPUT_AS_STRING"/>
+</restriction>
+</simpleType>
+<simpleType name="DeviceResolutionStrategyType">
+<restriction base="string">
+<enumeration value="INHERITED"/>
+<enumeration value="CUSTOM"/>
+</restriction>
+</simpleType>
+<complexType name="FileToUploadType">
+<sequence>
+<element name="fileName" type="tns:FileName"/>
+<element name="fileDescription" type="string"/>
+<element name="fileData" type="base64Binary"/>
+</sequence>
+</complexType>
+<element name="FileToUpload" type="tns:FileToUploadType"/>
+<complexType name="UploadedFileType">
+<sequence>
+<element name="fileName" type="tns:FileName"/>
+<element name="fileDescription" type="string"/>
+<element name="fileConvertible" type="boolean"/>
+</sequence>
+</complexType>
+<complexType name="UploadedFileTypeArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:UploadedFileType"/>
+</sequence>
+</complexType>
+<element name="UploadedFile" type="tns:UploadedFileType"/>
+<complexType name="FileNameSetType">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="fileNames" type="tns:FileName"/>
+</sequence>
+</complexType>
+<element name="FileNameSet" nillable="true" type="tns:FileNameSetType"/>
+<complexType name="Period">
+<sequence>
+<element name="startDate" type="dateTime"/>
+<element name="endDate" type="dateTime"/>
+</sequence>
+</complexType>
+<complexType name="PeriodOfAbsenceArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:Period"/>
+</sequence>
+</complexType>
+<complexType name="Person">
+<sequence>
+<element name="number" type="tns:PersonNumber"/>
+<element name="name1" nillable="true" type="tns:PersonName"/>
+<element name="name2" nillable="true" type="tns:PersonName"/>
+<element name="language" nillable="true" type="tns:LanguageCode"/>
+<element name="extra" nillable="true" type="tns:MaxString255"/>
+<element name="remarks" nillable="true" type="tns:Description"/>
+<element name="pin" nillable="true" type="tns:PersonPin"/>
+<element name="active" nillable="true" type="boolean"/>
+<element name="onDutyManagement" nillable="true" type="boolean"/>
+<element name="onDutyManagementAutomaticLogoutDuration" nillable="true" type="tns:OnDutyManagementAutomaticLogoutDuration"/>
+<element name="onDutyManagementNotification" nillable="true" type="boolean"/>
+<element name="contactDataManager" type="boolean"/>
+<element name="contactDataManagedBy" nillable="true" type="tns:PersonNumber"/>
+<element name="caseManagerAccessMode" nillable="true" type="tns:CaseManagerAccessMode"/>
+<element name="plannedPeriodsOfAbsence" nillable="true" type="tns:PeriodOfAbsenceArray"/>
+<element name="groups" nillable="true" type="tns:PersonGroupRelationArray"/>
+<element name="devices" nillable="true" type="tns:PersonDeviceRelationArray"/>
+<element name="qualifications" nillable="true" type="tns:PersonQualificationRelationArray"/>
+<element name="globalGroups" nillable="true" type="tns:PersonLogicalUnitGroupArray"/>
+</sequence>
+</complexType>
+<complexType name="PersonArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:Person"/>
+</sequence>
+</complexType>
+<element name="PersonSet" type="tns:PersonArray"/>
+<simpleType name="PersonPin">
+<restriction base="string">
+<maxLength value="6"/>
+<pattern value="[0-9]*"/>
+</restriction>
+</simpleType>
+<simpleType name="OnDutyManagementAutomaticLogoutDuration">
+<restriction base="int">
+<minInclusive value="0"/>
+<maxInclusive value="172800"/>
+</restriction>
+</simpleType>
+<simpleType name="MaxInt255">
+<restriction base="int">
+<maxInclusive value="255"/>
+</restriction>
+</simpleType>
+<simpleType name="MaxString255">
+<restriction base="string">
+<maxLength value="255"/>
+</restriction>
+</simpleType>
+<simpleType name="Description">
+<restriction base="string">
+<maxLength value="5000"/>
+</restriction>
+</simpleType>
+<simpleType name="PersonNumber">
+<restriction base="string">
+<minLength value="4"/>
+<maxLength value="32"/>
+<pattern value="[a-zA-Z0-9]*"/>
+</restriction>
+</simpleType>
+<complexType name="PersonNumberArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:PersonNumber"/>
+</sequence>
+</complexType>
+<simpleType name="PersonName">
+<restriction base="string">
+<maxLength value="30"/>
+</restriction>
+</simpleType>
+<element name="PersonNumberSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="personNumbers" type="tns:PersonNumber"/>
+</sequence>
+</complexType>
+</element>
+<element name="Person" type="tns:Person"/>
+<element name="PersonNumber" type="tns:PersonNumber"/>
+<complexType abstract="true" name="GroupType">
+<sequence>
+<element name="number" type="tns:GroupNumber"/>
+<element name="name" nillable="true" type="tns:GroupName"/>
+<element name="conference" type="boolean"/>
+<element name="activated" type="boolean"/>
+<element name="personsCounter" type="tns:MinIntZero"/>
+<element name="messageName" nillable="true" type="tns:GroupMessageRelationArray"/>
+</sequence>
+</complexType>
+<simpleType name="GroupNumber">
+<restriction base="string">
+<minLength value="3"/>
+</restriction>
+</simpleType>
+<simpleType name="GroupNumberStr">
+<restriction base="string">
+<minLength value="3"/>
+<maxLength value="32"/>
+</restriction>
+</simpleType>
+<simpleType name="GroupName">
+<restriction base="string">
+<maxLength value="40"/>
+</restriction>
+</simpleType>
+<complexType name="QualificationGroupType">
+<complexContent>
+<extension base="tns:GroupType">
+<sequence>
+<element name="firstNotification" type="tns:MinIntZero"/>
+<element name="qualificationCriteria" nillable="true" type="tns:QualificationCriteriaArray"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType abstract="true" name="BaseReflexivGroupType">
+<complexContent>
+<extension base="tns:GroupType">
+<sequence>
+<element name="referenceAlarmNumber" type="tns:AlarmNumber"/>
+<element name="personsNotNotified" type="boolean"/>
+<element name="personsNotReached" type="boolean"/>
+<element name="personsSent" type="boolean"/>
+<element name="personsTransferred" type="boolean"/>
+<element name="personsInConference" type="boolean"/>
+<element name="personsReached" type="boolean"/>
+<element name="confirmationType" type="tns:ConfirmationType"/>
+<element name="confirmationValue" type="tns:MinIntZero"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="StaticReflexivGroupType">
+<complexContent>
+<extension base="tns:BaseReflexivGroupType">
+<sequence>
+<element name="referenceAlarmTimeToSeek" type="tns:MinIntZero"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="TempReflexivGroupType">
+<complexContent>
+<extension base="tns:BaseReflexivGroupType">
+<sequence>
+<element name="referenceAlarm" type="tns:ActivatedAlarmReference"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="ActivatedAlarmReference">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+<element name="alarmCounter" type="int"/>
+<element name="dbHostName" type="string"/>
+<element maxOccurs="unbounded" name="dbHostIp" type="byte"/>
+</sequence>
+</complexType>
+<complexType name="TempQualificationGroupType">
+<sequence>
+<element name="number" type="tns:GroupNumber"/>
+<element name="name" nillable="true" type="tns:GroupName"/>
+<element name="conference" type="boolean"/>
+<element name="activated" type="boolean"/>
+<element name="personsCounter" type="tns:MinIntZero"/>
+<element name="firstNotification" type="tns:MinIntZero"/>
+<element name="qualificationCriteria" nillable="true" type="tns:QualificationCriteriaArray"/>
+</sequence>
+</complexType>
+<simpleType name="LogicalOperator">
+<restriction base="string">
+<enumeration value="EQUAL"/>
+<enumeration value="NOT_EQUAL"/>
+</restriction>
+</simpleType>
+<simpleType name="LinkOperator">
+<restriction base="string">
+<enumeration value="OR"/>
+<enumeration value="AND"/>
+</restriction>
+</simpleType>
+<complexType name="SingleCriteria">
+<sequence>
+<element name="logicalOperator" nillable="true" type="tns:LogicalOperator"/>
+<element name="qualificationName" type="tns:QualificationName"/>
+<element name="qualificationValue" type="tns:SelectedQualificationValue"/>
+</sequence>
+</complexType>
+<complexType name="QualificationCriteria">
+<sequence>
+<element name="linkOperator" type="tns:LinkOperator"/>
+<element name="singleCriteria" type="tns:SingleCriteria"/>
+</sequence>
+</complexType>
+<complexType name="QualificationCriteriaArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:QualificationCriteria"/>
+</sequence>
+</complexType>
+<complexType name="StaticGroupType">
+<complexContent>
+<extension base="tns:GroupType">
+<sequence>
+<element name="personNumber" nillable="true" type="tns:PersonNumberArray"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<element name="Group" type="tns:GroupType"/>
+<element name="GroupNumber" type="tns:GroupNumber"/>
+<complexType name="GroupSetType">
+<sequence>
+<choice maxOccurs="unbounded" minOccurs="0">
+<element name="qualificationGroup" type="tns:QualificationGroupType"/>
+<element name="reflexivGroup" type="tns:StaticReflexivGroupType"/>
+<element name="staticGroup" type="tns:StaticGroupType"/>
+</choice>
+</sequence>
+</complexType>
+<element name="GroupSet" type="tns:GroupSetType"/>
+<complexType name="GroupReturnType">
+<sequence>
+<choice>
+<element name="qualificationGroup" type="tns:QualificationGroupType"/>
+<element name="reflexivGroup" type="tns:StaticReflexivGroupType"/>
+<element name="staticGroup" type="tns:StaticGroupType"/>
+</choice>
+</sequence>
+</complexType>
+<element name="GroupReturnType" type="tns:GroupReturnType"/>
+<complexType name="GroupNumberSetType">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="groupNumber" type="tns:GroupNumber"/>
+</sequence>
+</complexType>
+<element name="GroupNumberSet" type="tns:GroupNumberSetType"/>
+<simpleType name="AlarmNumber">
+<restriction base="string">
+<minLength value="2"/>
+<maxLength value="16"/>
+<pattern value="[0-9]*"/>
+</restriction>
+</simpleType>
+<simpleType name="AlarmName">
+<restriction base="string">
+<maxLength value="50"/>
+</restriction>
+</simpleType>
+<simpleType name="AlarmValidTime">
+<restriction base="int">
+<minInclusive value="1"/>
+<maxInclusive value="7200"/>
+</restriction>
+</simpleType>
+<simpleType name="MinIntOne">
+<restriction base="int">
+<minInclusive value="1"/>
+</restriction>
+</simpleType>
+<simpleType name="MinIntZero">
+<restriction base="int">
+<minInclusive value="0"/>
+</restriction>
+</simpleType>
+<simpleType name="FileName">
+<restriction base="string">
+<maxLength value="255"/>
+<pattern value=".+\.[A-Za-z0-9]*"/>
+</restriction>
+</simpleType>
+<complexType name="FileNameArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:FileName"/>
+</sequence>
+</complexType>
+<simpleType name="InternationalPhoneNumber">
+<restriction base="string">
+<minLength value="6"/>
+<maxLength value="18"/>
+<pattern value="\+[1-9][0-9]{7,17}"/>
+</restriction>
+</simpleType>
+<element name="AlarmNumber" type="tns:AlarmNumber"/>
+<simpleType name="ActivationClient">
+<restriction base="string">
+<enumeration value="TELEPHONE"/>
+<enumeration value="FAX"/>
+<enumeration value="BSH"/>
+<enumeration value="XML"/>
+<enumeration value="VDS"/>
+<enumeration value="EMERGENCY_NUMBER"/>
+<enumeration value="F24_INTERNAL_EMERGENCY"/>
+<enumeration value="CHILD_ALARM"/>
+</restriction>
+</simpleType>
+<simpleType name="CurrencyCode">
+<restriction base="string">
+<enumeration value="EUR"/>
+<enumeration value="GBP"/>
+<enumeration value="CZK"/>
+<enumeration value="USD"/>
+</restriction>
+</simpleType>
+<complexType name="ActivatedAlarm">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+<element name="name" type="tns:AlarmName"/>
+<element name="startDateTime" type="dateTime"/>
+<element name="stopDateTime" nillable="true" type="dateTime"/>
+<element name="validUntilDateTime" type="dateTime"/>
+<element name="validTime" type="int"/>
+<element name="userName" type="string"/>
+<element name="userNumber" type="string"/>
+<element name="alarmCounter" type="int"/>
+<element name="dbHostName" type="string"/>
+<element maxOccurs="unbounded" name="dbHostIp" type="byte"/>
+<element name="activationClient" type="tns:ActivationClient"/>
+<element name="foreignIdentification" type="string"/>
+<element name="currencyCode" type="tns:CurrencyCode"/>
+<element name="isCaseManagerEnabled" type="boolean"/>
+</sequence>
+</complexType>
+<element name="ActivatedAlarmSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="activatedAlarms" type="tns:ActivatedAlarm"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="Alarm">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+<element name="name" nillable="true" type="tns:AlarmName"/>
+<element name="conference" nillable="true" type="boolean"/>
+<element name="conferenceManagerFiles" nillable="true" type="tns:FileNameSetType"/>
+<element name="activatorInConference" nillable="true" type="boolean"/>
+<element name="testAlarm" nillable="true" type="boolean"/>
+<element name="validTime" nillable="true" type="tns:AlarmValidTime"/>
+<element name="messageRepeats" nillable="true" type="tns:MinIntOne"/>
+<element name="reportStyle" nillable="true" type="tns:ReportStyle"/>
+<element name="originationNumber" nillable="true" type="tns:InternationalPhoneNumber"/>
+<element name="forwardActivatorNumber" nillable="true" type="boolean"/>
+<element name="beepBeforeConfirmation" nillable="true" type="boolean"/>
+<element name="expectedConfirmationDigits" nillable="true" type="tns:MinIntOne"/>
+<element name="timeForConfirmationInput" nillable="true" type="int"/>
+<element name="catchAllDevices" nillable="true" type="boolean"/>
+<element name="sendVoiceMessageAsEmailAttachment" nillable="true" type="boolean"/>
+<element name="childAlarmNumber" nillable="true" type="tns:AlarmNumber"/>
+<element name="childAlarmDelay" nillable="true" type="tns:MinIntOne"/>
+<element name="childAlarmMode" nillable="true" type="tns:ChildAlarmMode"/>
+<element name="maxRecordableMessageDuration" nillable="true" type="tns:MinIntOne"/>
+<element name="recordableMessageTimeout" nillable="true" type="tns:MinIntOne"/>
+<element name="recordConference" nillable="true" type="boolean"/>
+<element name="askForPin" nillable="true" type="boolean"/>
+<element name="startAlarmStream" nillable="true" type="boolean"/>
+<element name="conferenceMode" nillable="true" type="tns:ConferenceMode"/>
+<element name="groups" nillable="true" type="tns:AlarmGroupRelationArray"/>
+<element name="messages" nillable="true" type="tns:AlarmMessageRelationArray"/>
+<element name="reportDevices" nillable="true" type="tns:AlarmReportDeviceRelationArray"/>
+<element name="globalGroups" nillable="true" type="tns:AlarmLogicalUnitGroupRelationArray"/>
+</sequence>
+</complexType>
+<complexType name="AlarmArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:Alarm"/>
+</sequence>
+</complexType>
+<element name="Alarm" type="tns:Alarm"/>
+<element name="AlarmSet" type="tns:AlarmArray"/>
+<element name="AlarmNumberSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="alarmNumbers" type="tns:AlarmNumber"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="DeviceName">
+<restriction base="string">
+<maxLength value="255"/>
+</restriction>
+</simpleType>
+<simpleType name="ThresholdName">
+<restriction base="string">
+<maxLength value="255"/>
+</restriction>
+</simpleType>
+<element name="ThresholdNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="names" type="tns:ThresholdName"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="ThresholdPercents">
+<restriction base="int">
+<minInclusive value="0"/>
+<maxInclusive value="100"/>
+</restriction>
+</simpleType>
+<simpleType name="ThresholdMinutes">
+<restriction base="int">
+<minInclusive value="0"/>
+</restriction>
+</simpleType>
+<complexType abstract="true" name="Device">
+<sequence>
+<element name="name" type="tns:MaxString255"/>
+<element name="delayNextDevice" nillable="true" type="int"/>
+</sequence>
+</complexType>
+<simpleType name="FollowupSMSAction">
+<restriction base="string">
+<enumeration value="NO_ACTION"/>
+<enumeration value="SEND_FLASH_SMS"/>
+<enumeration value="SEND_SMS"/>
+<enumeration value="SEND_ALWAYS_SMS"/>
+</restriction>
+</simpleType>
+<simpleType name="OndutyNotificationAction">
+<restriction base="string">
+<enumeration value="NEVER"/>
+<enumeration value="AT_LOGIN_ONLY"/>
+<enumeration value="AT_LOGOUT_ONLY"/>
+<enumeration value="ANY_TIME"/>
+</restriction>
+</simpleType>
+<simpleType name="PagerType">
+<restriction base="string">
+<enumeration value="TONE"/>
+<enumeration value="NUMERIC"/>
+<enumeration value="ALPHANUMERIC"/>
+</restriction>
+</simpleType>
+<complexType name="EmailDevice">
+<complexContent>
+<extension base="tns:Device">
+<sequence>
+<element name="subject" nillable="true" type="tns:MaxString255"/>
+<element name="sender" nillable="true" type="string"/>
+<element name="onDutyNotificationAction" nillable="true" type="tns:OndutyNotificationAction"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="FaxDevice">
+<complexContent>
+<extension base="tns:Device">
+<sequence>
+<element name="ringTimeInSeconds" nillable="true" type="tns:MinIntZero"/>
+<element name="attempts" nillable="true" type="tns:MinIntZero"/>
+<element name="sender" nillable="true" type="tns:FaxDeviceSender"/>
+<element name="confirmOnSend" nillable="true" type="boolean"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<simpleType name="FaxDeviceSender">
+<restriction base="string">
+<maxLength value="20"/>
+</restriction>
+</simpleType>
+<complexType name="PagerDevice">
+<complexContent>
+<extension base="tns:Device">
+<sequence>
+<element name="pagerType" type="tns:PagerType"/>
+<element name="ringTimeInSeconds" nillable="true" type="tns:MinIntZero"/>
+<element name="attempts" nillable="true" type="tns:MinIntZero"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="PhoneDevice">
+<complexContent>
+<extension base="tns:Device">
+<sequence>
+<element name="ringTimeInSeconds" nillable="true" type="tns:MinIntZero"/>
+<element name="attempts" nillable="true" type="tns:MinIntZero"/>
+<element name="notificationOnly" nillable="true" type="boolean"/>
+<element name="delaytimeOnNoAnswer" nillable="true" type="tns:MinIntZero"/>
+<element name="delaytimeOnBusy" nillable="true" type="tns:MinIntZero"/>
+<element name="delaytimeOnNoConfirmation" nillable="true" type="tns:MinIntZero"/>
+<element name="followupSMSSender" nillable="true" type="tns:InternationalPhoneNumber"/>
+<element name="followupSMSAction" nillable="true" type="tns:FollowupSMSAction"/>
+<element name="ondutyNotification" nillable="true" type="tns:OndutyNotificationAction"/>
+<element name="delaytimeOnError" nillable="true" type="int"/>
+<element name="addonDialing" nillable="true" type="boolean"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="SMSDevice">
+<complexContent>
+<extension base="tns:Device">
+<sequence>
+<element name="attempts" nillable="true" type="tns:MinIntZero"/>
+<element name="sender" nillable="true" type="tns:InternationalPhoneNumber"/>
+<element name="flash" nillable="true" type="boolean"/>
+<element name="smsOndutyNotificationAction" nillable="true" type="tns:OndutyNotificationAction"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="DeviceSetType">
+<sequence>
+<choice maxOccurs="unbounded" minOccurs="0">
+<element name="emailDevice" type="tns:EmailDevice"/>
+<element name="faxDevice" type="tns:FaxDevice"/>
+<element name="pagerDevice" type="tns:PagerDevice"/>
+<element name="phoneDevice" type="tns:PhoneDevice"/>
+<element name="smsDevice" type="tns:SMSDevice"/>
+</choice>
+</sequence>
+</complexType>
+<element name="DeviceSet" type="tns:DeviceSetType"/>
+<element name="DeviceNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="deviceNames" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="DeviceNameArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+<complexType abstract="true" name="ReportDevice">
+<sequence>
+<element name="name" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+<complexType name="ReportDeviceEmail">
+<complexContent>
+<extension base="tns:ReportDevice">
+<sequence>
+<element name="email" nillable="true" type="string"/>
+<element name="sender" nillable="true" type="tns:MaxString255"/>
+<element name="additional_report_as_pdf_attachment" nillable="true" type="boolean"/>
+<element name="to_activator_email" nillable="true" type="boolean"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="ReportDeviceFax">
+<complexContent>
+<extension base="tns:ReportDevice">
+<sequence>
+<element name="sender" nillable="true" type="tns:FaxDeviceSender"/>
+<element name="number" nillable="true" type="tns:ReportDeviceNumber"/>
+<element name="ringtime" nillable="true" type="tns:MinIntOne"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<simpleType name="ReportDeviceNumber">
+<restriction base="string">
+<minLength value="5"/>
+<maxLength value="22"/>
+</restriction>
+</simpleType>
+<complexType name="ReportDeviceSms">
+<complexContent>
+<extension base="tns:ReportDevice">
+<sequence>
+<element name="sender" type="tns:InternationalPhoneNumber"/>
+<element name="number" type="tns:ReportDeviceNumber"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="ReportDeviceType">
+<sequence>
+<choice>
+<element name="reportDeviceEmail" type="tns:ReportDeviceEmail"/>
+<element name="reportDeviceFax" type="tns:ReportDeviceFax"/>
+<element name="reportDeviceSms" type="tns:ReportDeviceSms"/>
+</choice>
+</sequence>
+</complexType>
+<element name="ReportDevice" type="tns:ReportDeviceType"/>
+<complexType name="ReportDeviceSetType">
+<sequence>
+<choice maxOccurs="unbounded" minOccurs="0">
+<element name="reportDeviceEmail" type="tns:ReportDeviceEmail"/>
+<element name="reportDeviceFax" type="tns:ReportDeviceFax"/>
+<element name="reportDeviceSms" type="tns:ReportDeviceSms"/>
+</choice>
+</sequence>
+</complexType>
+<element name="ReportDeviceSet" type="tns:ReportDeviceSetType"/>
+<element name="ReportDeviceNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="reportDeviceNames" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="MessageName">
+<restriction base="string">
+<maxLength value="255"/>
+</restriction>
+</simpleType>
+<complexType name="MessageID">
+<choice>
+<element name="fixMessageName" type="tns:MessageName"/>
+<element name="variableMessageName" type="boolean"/>
+<element name="timestampMessageName" type="boolean"/>
+</choice>
+</complexType>
+<element name="MessageName" type="tns:MessageName"/>
+<simpleType name="TextVoice">
+<restriction base="string">
+<maxLength value="1500"/>
+</restriction>
+</simpleType>
+<simpleType name="TextSms">
+<restriction base="string">
+<maxLength value="1500"/>
+</restriction>
+</simpleType>
+<simpleType name="TextEmail">
+<restriction base="string">
+<maxLength value="5000"/>
+</restriction>
+</simpleType>
+<complexType name="FixedMessage">
+<sequence>
+<element name="name" type="tns:MessageName"/>
+<element name="language" type="tns:LanguageCode"/>
+<element name="recordedMessageFile" nillable="true" type="tns:FileName"/>
+<element name="attachedFiles" nillable="true" type="tns:FileNameArray"/>
+<element name="textVoice" type="tns:TextVoice"/>
+<element name="textSms" type="tns:TextSms"/>
+<element name="textEmail" type="tns:TextEmail"/>
+<element name="textPager" type="string"/>
+</sequence>
+</complexType>
+<complexType name="VariableMessageLanguageContent">
+<sequence>
+<element name="textVoice" type="tns:TextVoice"/>
+<element name="textSms" type="tns:TextSms"/>
+<element name="textEmail" type="tns:TextEmail"/>
+<element name="textPager" type="string"/>
+</sequence>
+</complexType>
+<complexType name="VariableMessage">
+<sequence>
+<element name="language" type="tns:LanguageCode"/>
+<element name="languageContent" type="tns:VariableMessageLanguageContent"/>
+</sequence>
+</complexType>
+<complexType name="FixedMessageSetType">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="messageNames" type="tns:FixedMessage"/>
+</sequence>
+</complexType>
+<element name="FixedMessageSet" type="tns:FixedMessageSetType"/>
+<element name="MessageNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="messageNames" type="tns:MessageName"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="QualificationName">
+<restriction base="string">
+<maxLength value="255"/>
+</restriction>
+</simpleType>
+<element name="QualificationNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="qualificationNames" type="tns:QualificationName"/>
+</sequence>
+</complexType>
+</element>
+<complexType abstract="true" name="Qualification">
+<sequence>
+<element name="name" type="tns:QualificationName"/>
+<element name="description" nillable="true" type="tns:Description"/>
+</sequence>
+</complexType>
+<complexType name="TextQualification">
+<complexContent>
+<extension base="tns:Qualification">
+<sequence/>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="BooleanQualification">
+<complexContent>
+<extension base="tns:Qualification">
+<sequence/>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="SelectQualificationChoiceType">
+<choice>
+<element name="singleSelectQualification" type="tns:QualificationName"/>
+<element name="multiSelectQualification" type="tns:QualificationName"/>
+</choice>
+</complexType>
+<element name="SelectQualificationValuePair">
+<complexType>
+<sequence>
+<element name="qualification" type="tns:SelectQualificationChoiceType"/>
+<element name="value" type="tns:SelectQualificationValueType"/>
+</sequence>
+</complexType>
+</element>
+<element name="SelectQualificationValueUpdatePair">
+<complexType>
+<sequence>
+<element name="qualification" type="tns:SelectQualificationChoiceType"/>
+<element name="oldValue" type="tns:SelectQualificationValueType"/>
+<element name="newValue" type="tns:SelectQualificationValueType"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="SingleSelectQualification">
+<complexContent>
+<extension base="tns:Qualification">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="qualificationValue" type="tns:SelectQualificationValueType"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="MultiSelectQualification">
+<complexContent>
+<extension base="tns:Qualification">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="qualificationValue" type="tns:SelectQualificationValueType"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<complexType name="QualificationType">
+<choice>
+<element name="textQualification" type="tns:TextQualification"/>
+<element name="booleanQualification" type="tns:BooleanQualification"/>
+<element name="singleSelectQualification" type="tns:SingleSelectQualification"/>
+<element name="multiSelectQualification" type="tns:MultiSelectQualification"/>
+</choice>
+</complexType>
+<element name="Qualification" type="tns:QualificationType"/>
+<complexType name="QualificationSetType">
+<choice maxOccurs="unbounded" minOccurs="0">
+<element name="textQualification" type="tns:TextQualification"/>
+<element name="booleanQualification" type="tns:BooleanQualification"/>
+<element name="singleSelectQualification" type="tns:SingleSelectQualification"/>
+<element name="multiSelectQualification" type="tns:MultiSelectQualification"/>
+</choice>
+</complexType>
+<element name="QualificationSet" type="tns:QualificationSetType"/>
+<element name="QualificationName" type="tns:QualificationName"/>
+<complexType name="ActivationType">
+<sequence>
+<element name="activationAlarmNumber" type="tns:AlarmNumber"/>
+<element maxOccurs="unbounded" name="variableMessages" nillable="true" type="tns:VariableMessage"/>
+<element maxOccurs="1000" minOccurs="0" name="variableMessageEmailFiles" nillable="true" type="tns:FileNameSetType"/>
+<element maxOccurs="1000" minOccurs="0" name="variableMessageFaxFiles" nillable="true" type="tns:FileNameSetType"/>
+<element name="assignActiveGroupSet" nillable="true" type="tns:GroupNumberSetType"/>
+<element name="addTemporaryGroupSet" nillable="true" type="tns:TempGroupSetType"/>
+<element name="additionalPerson" nillable="true" type="tns:PersonNumberArray"/>
+<element name="selectedDevice" nillable="true" type="tns:DeviceNameArray"/>
+<element name="externalPersonSet" nillable="true" type="tns:ExternalPersonArray"/>
+<element name="externalGroupSet" nillable="true" type="tns:ExternalGroupArray"/>
+</sequence>
+</complexType>
+<element name="Activation" type="tns:ActivationType"/>
+<complexType name="TempGroupSetType">
+<sequence>
+<choice maxOccurs="unbounded">
+<element name="reflexivGroup" type="tns:TempReflexivGroupType"/>
+<element name="qualificationGroup" type="tns:TempQualificationGroupType"/>
+</choice>
+</sequence>
+</complexType>
+<complexType name="ExternalPerson">
+<sequence>
+<element name="number" type="tns:PersonNumber"/>
+<element name="name1" nillable="true" type="tns:PersonName"/>
+<element name="name2" nillable="true" type="tns:PersonName"/>
+<element name="language" nillable="true" type="tns:LanguageCode"/>
+<element name="extra" nillable="true" type="tns:MaxString255"/>
+<element name="pin" nillable="true" type="tns:PersonPin"/>
+<element name="externalGroups" nillable="true" type="tns:GroupNumberSetType"/>
+<element name="externalPersonDevices" nillable="true" type="tns:PersonDeviceRelationArray"/>
+</sequence>
+</complexType>
+<complexType name="ExternalPersonArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:ExternalPerson"/>
+</sequence>
+</complexType>
+<complexType name="ExternalGroup">
+<sequence>
+<element name="number" type="tns:GroupNumber"/>
+<element name="name" nillable="true" type="tns:GroupName"/>
+<element name="externalPersonsCounter" type="tns:MinIntZero"/>
+<element name="externalPersonNumber" nillable="true" type="tns:PersonNumberArray"/>
+</sequence>
+</complexType>
+<complexType name="ExternalGroupArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:ExternalGroup"/>
+</sequence>
+</complexType>
+<simpleType name="StartTimeType">
+<restriction base="string">
+<enumeration value="NOW"/>
+<enumeration value="FUTURE"/>
+</restriction>
+</simpleType>
+<complexType name="StartTime">
+<sequence>
+<element name="type" type="tns:StartTimeType"/>
+<element name="startTime" nillable="true" type="dateTime"/>
+</sequence>
+</complexType>
+<element name="StartDataExportDateTime" type="tns:StartTime"/>
+<simpleType name="DataExportStateType">
+<restriction base="string">
+<enumeration value="IMMEDIATELY"/>
+<enumeration value="PLANNED"/>
+<enumeration value="ABORTED"/>
+<enumeration value="RUNNING"/>
+<enumeration value="FINISHED"/>
+<enumeration value="ERROR"/>
+</restriction>
+</simpleType>
+<element name="DataExportState" type="tns:DataExportStateType"/>
+<complexType name="AlarmMessageRelation">
+<sequence>
+<element name="messageId" type="tns:MessageID"/>
+</sequence>
+</complexType>
+<complexType name="AlarmMessageRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:AlarmMessageRelation"/>
+</sequence>
+</complexType>
+<complexType name="GroupMessageRelation">
+<sequence>
+<element name="messageName" type="tns:MessageName"/>
+</sequence>
+</complexType>
+<complexType name="GroupMessageRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:GroupMessageRelation"/>
+</sequence>
+</complexType>
+<complexType name="PersonQualificationRelation">
+<sequence>
+<element name="qualificationValue" type="tns:SelectedQualificationValue"/>
+<element name="qualification" type="tns:QualificationName"/>
+</sequence>
+</complexType>
+<complexType name="PersonQualificationRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:PersonQualificationRelation"/>
+</sequence>
+</complexType>
+<complexType name="SelectedQualificationValue">
+<sequence>
+<choice>
+<element name="textQualificationValue" type="string"/>
+<element name="booleanQualificationValue" type="boolean"/>
+<element name="singleSelectQualificationValue" type="tns:SelectQualificationValueType"/>
+<element maxOccurs="unbounded" name="multiSelectQualificationValue" type="tns:SelectQualificationValueType"/>
+</choice>
+</sequence>
+</complexType>
+<complexType name="SelectQualificationValueType">
+<sequence>
+<element name="value" type="tns:MaxString255"/>
+</sequence>
+</complexType>
+<complexType name="PersonDeviceRelation">
+<sequence>
+<element name="callingNumberOrEmail" type="string"/>
+<element name="prio_working_hours" type="int"/>
+<element name="prio_non_working_hours" type="int"/>
+<element name="deviceName" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+<complexType name="PersonDeviceRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:PersonDeviceRelation"/>
+</sequence>
+</complexType>
+<complexType name="PersonGroupRelation">
+<sequence>
+<element name="active" type="boolean"/>
+<element name="conference_moderator" type="boolean"/>
+<element name="time_offset" type="int"/>
+<element name="groupNumber" type="tns:GroupNumber"/>
+</sequence>
+</complexType>
+<complexType name="PersonGroupRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:PersonGroupRelation"/>
+</sequence>
+</complexType>
+<complexType name="PersonLogicalUnitGroupArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:PersonLogicalUnitGroupRelation"/>
+</sequence>
+</complexType>
+<complexType name="PersonLogicalUnitGroupRelation">
+<sequence>
+<element name="groupName" type="tns:GroupName"/>
+</sequence>
+</complexType>
+<complexType name="AlarmGroupRelation">
+<sequence>
+<element name="active" type="boolean"/>
+<element name="catch_all_devices" type="boolean"/>
+<element name="device_resolution_strategy" type="tns:DeviceResolutionStrategyType"/>
+<element name="priority" type="int"/>
+<element name="groupNumber" type="tns:GroupNumber"/>
+<element maxOccurs="1000" minOccurs="0" name="messages" type="tns:MessageName"/>
+</sequence>
+</complexType>
+<complexType name="AlarmGroupRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:AlarmGroupRelation"/>
+</sequence>
+</complexType>
+<complexType name="AlarmLogicalUnitGroupRelation">
+<sequence>
+<element name="groupName" type="tns:GroupName"/>
+</sequence>
+</complexType>
+<complexType name="AlarmLogicalUnitGroupRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:AlarmLogicalUnitGroupRelation"/>
+</sequence>
+</complexType>
+<complexType name="AlarmReportDeviceRelation">
+<sequence>
+<element name="language" type="tns:LanguageCode"/>
+<element name="thresholdName" type="tns:ThresholdName"/>
+<element name="reportDeviceName" type="tns:DeviceName"/>
+</sequence>
+</complexType>
+<complexType name="AlarmReportDeviceRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:AlarmReportDeviceRelation"/>
+</sequence>
+</complexType>
+<complexType name="Threshold">
+<sequence>
+<element name="name" type="tns:ThresholdName"/>
+<element name="firstReportMinutes" type="tns:ThresholdMinutes"/>
+<element name="secondReportMinutes" type="tns:ThresholdMinutes"/>
+<element name="lastReportMinutes" type="tns:ThresholdMinutes"/>
+<element name="firstReportPercent" type="tns:ThresholdPercents"/>
+<element name="secondReportPercent" type="tns:ThresholdPercents"/>
+<element name="lastReportPercent" type="tns:ThresholdPercents"/>
+</sequence>
+</complexType>
+<element name="ThresholdArray">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="thresholds" type="tns:Threshold"/>
+</sequence>
+</complexType>
+</element>
+<element name="SessionHeader">
+<complexType>
+<sequence>
+<element name="sessionId" nillable="true" type="string"/>
+</sequence>
+</complexType>
+</element>
+<element name="LoginScopeHeader">
+<complexType>
+<sequence>
+<element name="organizationName" type="tns:OrganisationName"/>
+</sequence>
+</complexType>
+</element>
+<element name="LoginRequest">
+<complexType>
+<sequence>
+<element name="username" type="string"/>
+<element name="password" type="string"/>
+</sequence>
+</complexType>
+</element>
+<element name="LoginResult">
+<complexType>
+<sequence>
+<element name="sessionId" type="string"/>
+<element name="sessionTimeout" type="int"/>
+<element name="organizationName" type="tns:OrganisationName"/>
+<element name="userInfoResult" type="tns:UserInfoResult"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="OrganisationName">
+<restriction base="string">
+<maxLength value="256"/>
+</restriction>
+</simpleType>
+<element name="OrganisationName" type="tns:OrganisationName"/>
+<complexType name="TimeZone">
+<sequence>
+<element name="timeZoneId" type="string"/>
+<element name="currentUtcOffset" type="long"/>
+</sequence>
+</complexType>
+<complexType name="Organisation">
+<sequence>
+<element name="name" type="tns:OrganisationName"/>
+<element name="description" type="tns:Description"/>
+<element name="prefix" type="string"/>
+<element name="countryCallingCode" type="string"/>
+<element name="treeLevel" type="int"/>
+<element name="timeZone" type="tns:TimeZone"/>
+<element name="billingCompany" type="string"/>
+<element name="language" type="tns:LanguageCode"/>
+</sequence>
+</complexType>
+<complexType name="UserInfoResult">
+<sequence>
+<element maxOccurs="unbounded" name="accessibleOrgs" type="tns:Organisation"/>
+<element name="isDemo" type="boolean"/>
+<element name="prefixLength" nillable="true" type="int"/>
+<element name="alarmNumberLength" type="int"/>
+<element name="groupNumberLength" type="int"/>
+<element name="personNumberLength" type="int"/>
+</sequence>
+</complexType>
+<simpleType name="StatusCode">
+<restriction base="string">
+<enumeration value="VALIDATION_FAILED"/>
+<enumeration value="CANNOT_DELETE_REFERENCED_OBJECT"/>
+<enumeration value="OBJECT_WAS_NOT_FOUND"/>
+</restriction>
+</simpleType>
+<element name="OperationResult">
+<complexType>
+<sequence>
+<element name="done" type="boolean"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="UploadFileResult">
+<complexType>
+<choice>
+<element name="uploadedEntity" type="tns:UploadedFileType"/>
+<element name="errorEntity" type="tns:ErrorEntity"/>
+</choice>
+</complexType>
+</element>
+<element name="RetrieveUploadedFilesResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:UploadedFileTypeArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveAlarmsResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:AlarmArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrievePersonsResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:PersonArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveGroupsResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:GroupSetType"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveDevicesResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:DeviceSetType"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveMessagesResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:FixedMessageSetType"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveQualificationsResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:QualificationSetType"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveReportDevicesResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:ReportDeviceSetType"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<element name="RetrieveLogicalUnitResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:LogicalUnitGroupArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<simpleType name="ExceptionCode">
+<restriction base="string">
+<enumeration value="INVALID_SESSION_ID"/>
+<enumeration value="INVALID_ORGANIZATION_ID"/>
+<enumeration value="RUNTIME_ERROR"/>
+<enumeration value="INVALID_USER_CREDENTIALS"/>
+<enumeration value="INSUFFICIENT_ACCESS_RIGHTS"/>
+<enumeration value="ORGANIZATION_LOCKED"/>
+<enumeration value="MAXIMUM_ENTITYTYPE_COMPONENTS_EXCEEDED"/>
+<enumeration value="INVALID_DATA"/>
+<enumeration value="ENTITY_NOT_FOUND"/>
+<enumeration value="INACTIVE_ENTERPRISE"/>
+<enumeration value="INACTIVE_ORGANIZATION"/>
+<enumeration value="UNSUFFICIENT_PRIVILEGES_FOR_LOGIN"/>
+<enumeration value="EXPIRED_PASSWORD"/>
+<enumeration value="EXPIRED_PASSWORD_RESET"/>
+<enumeration value="INACTIVE_ACCOUNT"/>
+<enumeration value="CHILD_ALARM_CYCLE"/>
+<enumeration value="PERSON_CONTACT_MANAGER_CYCLE"/>
+<enumeration value="DATAEXPORT_ALREADY_EXISTS"/>
+<enumeration value="IP_ADDRESS_BLOCKED"/>
+</restriction>
+</simpleType>
+<complexType name="Error">
+<sequence>
+<element name="errorCode" type="tns:ExceptionCode"/>
+<element name="errorMessage" type="string"/>
+</sequence>
+</complexType>
+<element name="Fault">
+<complexType>
+<sequence>
+<element name="errorCode" type="tns:ExceptionCode"/>
+<element name="errorMessage" type="string"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="LogicalUnitGroup">
+<sequence>
+<element name="name" type="tns:GroupName"/>
+<element name="description" type="tns:Description"/>
+<element name="conference" type="boolean"/>
+<element name="organisations" nillable="true" type="tns:LogicalUnitGroupOrganisationRelationArray"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:LogicalUnitGroup"/>
+</sequence>
+</complexType>
+<element name="LogicalUnitGroupSet" type="tns:LogicalUnitGroupArray"/>
+<complexType name="LogicalUnitGroupOrganisationRelation">
+<sequence>
+<element name="name" type="tns:OrganisationName"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupOrganisationRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:LogicalUnitGroupOrganisationRelation"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupPersonRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:LogicalUnitGroupPersonRelation"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupPersonRelation">
+<sequence>
+<element name="number" type="tns:PersonNumber"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupAlarmRelationArray">
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="elements" type="tns:LogicalUnitGroupAlarmRelation"/>
+</sequence>
+</complexType>
+<complexType name="LogicalUnitGroupAlarmRelation">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+</sequence>
+</complexType>
+<simpleType name="LogicalUnitGroupName">
+<restriction base="string">
+<maxLength value="50"/>
+</restriction>
+</simpleType>
+<element name="LogicalUnitGroupNameSet">
+<complexType>
+<sequence>
+<element maxOccurs="1000" minOccurs="0" name="logicalUnitGroupNames" type="tns:LogicalUnitGroupName"/>
+</sequence>
+</complexType>
+</element>
+<element name="MonitorAlarmSet" type="tns:MonitorAlarmArray"/>
+<complexType name="MonitorAlarmArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:MonitorAlarm"/>
+</sequence>
+</complexType>
+<complexType name="MonitorAlarm">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+<element name="name" nillable="true" type="tns:AlarmName"/>
+<element name="startDateTime" type="long"/>
+<element name="stopDateTime" nillable="true" type="long"/>
+<element name="validUntilDateTime" type="long"/>
+<element name="validTime" type="int"/>
+<element name="alarmCounter" type="int"/>
+<element name="revision" type="int"/>
+<element name="stopPossible" type="boolean"/>
+<element name="activationReference" type="tns:ActivationReferenceStr"/>
+</sequence>
+</complexType>
+<element name="AllGroupsForMonitorAlarmRequest">
+<complexType>
+<sequence>
+<element name="alarmNumber" type="tns:AlarmNumber"/>
+<element name="activationReference" nillable="true" type="tns:ActivationReferenceStr"/>
+</sequence>
+</complexType>
+</element>
+<element name="AllGroupsForMonitorAlarmResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:MonitorGroupArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="MonitorGroupArray">
+<sequence>
+<element maxOccurs="unbounded" minOccurs="0" name="elements" type="tns:MonitorGroup"/>
+</sequence>
+</complexType>
+<complexType name="MonitorGroup">
+<sequence>
+<element name="number" type="tns:GroupNumberStr"/>
+<element name="name" nillable="true" type="tns:GroupName"/>
+<element name="personCounter" nillable="true" type="int"/>
+</sequence>
+</complexType>
+<element name="AllPersonsForGroupRequest">
+<complexType>
+<sequence>
+<element name="alarmNumber" type="tns:AlarmNumber"/>
+<element name="activationReference" nillable="true" type="tns:ActivationReferenceStr"/>
+<element name="groupNumber" type="tns:GroupNumberStr"/>
+</sequence>
+</complexType>
+</element>
+<element name="AllPersonsForGroupResult">
+<complexType>
+<sequence>
+<element name="foundEntities" nillable="true" type="tns:MonitorPersonArray"/>
+<element name="errorEntities" nillable="true" type="tns:ErrorEntityArray"/>
+</sequence>
+</complexType>
+</element>
+<complexType name="MonitorAlarmDetail">
+<sequence>
+<element name="number" type="tns:AlarmNumber"/>
+<element name="name" nillable="true" type="tns:AlarmName"/>
+<element name="startDateTime" type="long"/>
+<element name="stopDateTime" nillable="true" type="long"/>
+<element name="validUntilDateTime" type="long"/>
+<element name="validTime" type="int"/>
+<element name="alarmCounter" type="int"/>
+<element name="revision" type="int"/>
+<element name="stopPossible" type="boolean"/>
+<element name="activationReference" type="tns:ActivationReferenceStr"/>
+<element name="userId" type="int"/>
+<element name="userNumber" type="string"/>
+<element name="numberOfPersons" type="int"/>
+<element name="transmitted_transferred" type="int"/>
+<element name="not_reached" type="int"/>
+<element name="reached_stat" type="int"/>
+<element name="conference_stat" type="int"/>
+<element name="not_notified" type="int"/>
+</sequence>
+</complexType>
+</schema>

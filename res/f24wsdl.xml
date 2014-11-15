@@ -1,0 +1,353 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://com.f24.soap.fwi.schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:act="http://com.f24.soap.fwi.activation" targetNamespace="http://com.f24.soap.fwi.activation">
+<types>
+<xsd:schema>
+<xsd:import namespace="http://com.f24.soap.fwi.schema" schemaLocation="F24ActivationService1.1?xsd=fwischema.xsd"/>
+</xsd:schema>
+</types>
+<message name="getAllActivatableAlarmsRequest"></message>
+<message name="getAllDevicesForActivationRequest">
+<part name="allDevicesForActivationRequest" element="tns:AllDevicesForActivationRequest"></part>
+</message>
+<message name="getAllActivatableAlarmsResponse">
+<part name="activatableAlarmSet" element="tns:AlarmSet"></part>
+</message>
+<message name="activationResponse">
+<part name="result" element="tns:OperationResult"></part>
+</message>
+<message name="loginResponse">
+<part name="loginResult" element="tns:LoginResult"></part>
+</message>
+<message name="getAllMonitorAlarmsRequest"></message>
+<message name="getAllGroupsForMonitorAlarmRequest">
+<part name="getAllGroupsForMonitorAlarmRequest" element="tns:AllGroupsForMonitorAlarmRequest"></part>
+</message>
+<message name="getAllMonitorAlarmsResponse">
+<part name="monitorAlarmSet" element="tns:MonitorAlarmSet"></part>
+</message>
+<message name="getMonitorAlarmDetailRequest">
+<part name="monitorAlarmDetailRequest" element="tns:MonitorAlarmDetailRequest"></part>
+</message>
+<message name="getMonitorPersonResponse">
+<part name="monitorPerson" element="tns:MonitorPersonResult"></part>
+</message>
+<message name="getAllPersonsForGroupResponse">
+<part name="getAllPersonsForGroupResponse" element="tns:AllPersonsForGroupResult"></part>
+</message>
+<message name="getAllNotifiablePersonsResponse">
+<part name="activePersonSet" element="tns:PersonSet"></part>
+</message>
+<message name="getAllActivatedAlarmsResponse">
+<part name="activatedAlarmSet" element="tns:ActivatedAlarmSet"></part>
+</message>
+<message name="getAllNotifiablePersonsRequest"></message>
+<message name="getAllPersonsForGroupRequest">
+<part name="getAllPersonsForGroupRequest" element="tns:AllPersonsForGroupRequest"></part>
+</message>
+<message name="getAllGroupsForMonitorAlarmResponse">
+<part name="getAllGroupsForMonitorAlarmResponse" element="tns:AllGroupsForMonitorAlarmResult"></part>
+</message>
+<message name="getAllActivatedAlarmsRequest"></message>
+<message name="getMonitorPersonRequest">
+<part name="monitorPersonRequest" element="tns:MonitorPersonRequest"></part>
+</message>
+<message name="getAllActiveGroupsRequest"></message>
+<message name="getAllPersonsForMonitorAlarmRequest">
+<part name="allPersonsForMonitorAlarmRequest" element="tns:AllPersonsForMonitorAlarmRequest"></part>
+</message>
+<message name="getMonitorAlarmDetailResponse">
+<part name="monitorAlarmDetail" element="tns:MonitorAlarmDetailResult"></part>
+</message>
+<message name="getAllPersonsForMonitorAlarmResponse">
+<part name="monitorPersonSet" element="tns:AllPersonsForMonitorAlarmResult"></part>
+</message>
+<message name="FWIServiceFault">
+<part name="fault" element="tns:Fault"></part>
+</message>
+<message name="getAllDevicesForActivationResponse">
+<part name="devicesForActivationSet" element="tns:DeviceSet"></part>
+</message>
+<message name="Header">
+<part name="LoginScopeHeader" element="tns:LoginScopeHeader"></part>
+<part name="SessionHeader" element="tns:SessionHeader"></part>
+</message>
+<message name="getAllActiveGroupsResponse">
+<part name="activeGroupSet" element="tns:GroupSet"></part>
+</message>
+<message name="activationRequest">
+<part name="activationRequest" element="tns:Activation"></part>
+</message>
+<message name="loginRequest">
+<part name="loginRequest" element="tns:LoginRequest"></part>
+</message>
+<portType name="FWIActivationServicePort">
+<operation name="login">
+<documentation>Login</documentation>
+<input message="act:loginRequest"></input>
+<output message="act:loginResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllActivatedAlarms">
+<documentation>Provides all activated alarms</documentation>
+<input message="act:getAllActivatedAlarmsRequest"></input>
+<output message="act:getAllActivatedAlarmsResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllActivatableAlarms">
+<documentation>Provides all activatable alarms</documentation>
+<input message="act:getAllActivatableAlarmsRequest"></input>
+<output message="act:getAllActivatableAlarmsResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllMonitorAlarms">
+<documentation>Provides all monitor alarms</documentation>
+<input message="act:getAllMonitorAlarmsRequest"></input>
+<output message="act:getAllMonitorAlarmsResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllActiveGroups">
+<documentation>Provides all activatable groups</documentation>
+<input message="act:getAllActiveGroupsRequest"></input>
+<output message="act:getAllActiveGroupsResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllNotifiablePersons">
+<documentation>Provides all notifiable personss</documentation>
+<input message="act:getAllNotifiablePersonsRequest"></input>
+<output message="act:getAllNotifiablePersonsResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllDevicesForActivation">
+<documentation>Provides all available devices for an activation</documentation>
+<input message="act:getAllDevicesForActivationRequest"></input>
+<output message="act:getAllDevicesForActivationResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="startActivation">
+<documentation/>
+<input message="act:activationRequest"></input>
+<output message="act:activationResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllPersonsForMonitorAlarm">
+<documentation>Provides all available persons for monitor alarm</documentation>
+<input message="act:getAllPersonsForMonitorAlarmRequest"></input>
+<output message="act:getAllPersonsForMonitorAlarmResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getMonitorPerson">
+<documentation>Provides person for monitor alarm</documentation>
+<input message="act:getMonitorPersonRequest"></input>
+<output message="act:getMonitorPersonResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllGroupsForMonitorAlarm">
+<documentation>Provides all groups for given MonitorAlarm</documentation>
+<input message="act:getAllGroupsForMonitorAlarmRequest"></input>
+<output message="act:getAllGroupsForMonitorAlarmResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getMonitorAlarmDetail">
+<documentation>Provides details of MonitorAlarm</documentation>
+<input message="act:getMonitorAlarmDetailRequest"></input>
+<output message="act:getMonitorAlarmDetailResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+<operation name="getAllPersonsForGroup">
+<documentation>
+Provides all persons for given monitor alarm and group
+</documentation>
+<input message="act:getAllPersonsForGroupRequest"></input>
+<output message="act:getAllPersonsForGroupResponse"></output>
+<fault name="FWIServiceFault" message="act:FWIServiceFault"></fault>
+</operation>
+</portType>
+<binding name="FWIActivationServicePortBindung" type="act:FWIActivationServicePort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="login">
+<soap:operation soapAction="login"/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllActivatedAlarms">
+<soap:operation soapAction="getAllActivatedAlarms"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllActivatableAlarms">
+<soap:operation soapAction="getAllActivatableAlarms"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllMonitorAlarms">
+<soap:operation soapAction="getAllMonitorAlarms"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllActiveGroups">
+<soap:operation soapAction="getAllActiveGroups"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllNotifiablePersons">
+<soap:operation soapAction="getAllNotifiablePersons"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllDevicesForActivation">
+<soap:operation soapAction="getAllDevicesForActivation"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="startActivation">
+<soap:operation soapAction="startActivation"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllPersonsForMonitorAlarm">
+<soap:operation soapAction="getAllPersonsForMonitorAlarm"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getMonitorPerson">
+<soap:operation soapAction="getMonitorPerson"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllGroupsForMonitorAlarm">
+<soap:operation soapAction="getAllGroupsForMonitorAlarm"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getAllPersonsForGroup">
+<soap:operation soapAction="getAllPersonsForGroup"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+<operation name="getMonitorAlarmDetail">
+<soap:operation soapAction="getMonitorAlarmDetail"/>
+<input>
+<soap:header message="act:Header" part="LoginScopeHeader" use="literal"></soap:header>
+<soap:header message="act:Header" part="SessionHeader" use="literal"></soap:header>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FWIServiceFault">
+<soap:fault name="FWIServiceFault" use="literal"/>
+</fault>
+</operation>
+</binding>
+<service name="F24ActivationService1.1">
+<documentation>F24 K2 Activation Service API 1.1</documentation>
+<port name="FWIActivationServicePort" binding="act:FWIActivationServicePortBindung">
+<soap:address location="http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1/"/>
+</port>
+</service>
+</definitions>
