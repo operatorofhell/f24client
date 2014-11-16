@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);	
 
-require("F24Client.php");
+require("lib/F24Client.php");
 
 $f24 = new F24Client('UserName842014', 'zyBC!123');
 
