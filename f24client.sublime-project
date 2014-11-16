@@ -2,7 +2,11 @@
 	"folders":
 	[
 		{
-			"path": "/home/moe/Sources/f24/src",
+			"path": ".",
+			"name": "F24Client"
+		},
+		{
+			"path": "/src",
 			"name": "Sources"
 		},
 		{
