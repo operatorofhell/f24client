@@ -86,33 +86,55 @@ class F24Client {
 
 		$this->storageFile = sys_get_temp_dir() . '/f24client.bin';
 
+		if ( ! $this->loadHeader() ){
+			trigger_error("No Sesion data available. Reconnecting\n", E_USER_NOTICE);
+			$this->connect();
+			$this->saveHeader();
+		}
+	
+		$this->buildHeader();
+	}
+
+	/**
+	*	saveHeader data
+	*
+	*	@access private
+	*/
+	private function saveHeader(){
+		if ( ! file_put_contents( $this->storageFile, serialize($this->header)) ) {
+			trigger_error('Cannot write file: ' . $this->storageFile, E_USER_WARNING);
+		}
+	}
+
+	/**
+	*	loadHeader
+	*
+	*	@access private
+	*
+	*	@return bool 	if load is successfull
+	*/
+	private function loadHeader(){
+		 
 		//check if session data is stored
 		if ( file_exists($this->storageFile) ){
 
 			//load session data from file
 			$this->header = unserialize(file_get_contents($this->storageFile));
 
-			//call login if session is not older than 10m
-			if( time() - $this->header['timestamp'] > 600 ){
-				$this->connect();
-			}
+			$age = time() - $this->header['timestamp']; 
+			
+			if(  $age < 600 ){
+				trigger_error("Session data is younger than 10m.\n", E_USER_NOTICE);
+				return true;
+			} 
+			
+			trigger_error("Session data is $ages old.", E_USER_NOTICE);
+	
 		} else {
-			error_reporting( 'Cannot load file: ' . $this->storageFile, E_USER_NOTICE);
+			trigger_error( 'Cannot load file: ' . $this->storageFile, E_USER_NOTICE);
 		}
-		
-
-		$this->buildHeader();
+		return false;
 	}
-
-	/**
-	*	deconstructor
-	*/
-	function __destruct(){
-		if ( ! file_put_contents( $this->storageFile, serialize($this->header)) ) {
-			error_reporting('Cannot write file: ' . $this->storageFile, E_USER_WARNING);
-		}
-	}
-
 	
 	/**
 	 *  creates the Soap Client Object
@@ -129,7 +151,7 @@ class F24Client {
 					$this->soapData['url'],
 					array("trace" => 1, "exception" => 1)
 			);
-
+			trigger_error( 'successfull instatiation of SOAP Client from URL: ' .$this->soapData['url'], E_USER_NOTICE);
 		} catch ( Exception $e){
 			trigger_error("Create Soap Client error: " . $e->getMessage(), E_USER_ERROR);
 		}
@@ -166,7 +188,7 @@ class F24Client {
 			}
 
 			$this->header['timestamp'] = time();
-
+			trigger_error( 'Got  header data\n', E_USER_NOTICE);
 		} catch ( Exception $e){
 			$this->handleSoapError('logging in', $e);
 		}
@@ -205,14 +227,14 @@ class F24Client {
 			
 			$this->SoapClient->startActivation($action);
 
-			print "Request Headers ===================================: \n".
-			$this->SoapClient->__getLastRequestHeaders() ."\n";
-			print "Request===========================================: \n".
-			$this->SoapClient->__getLastRequest() ."\n";
-			print "Response Headers ================================================: \n".
-			$this->SoapClient->__getLastResponseHeaders()."\n";
-			print "Response ========================================================: \n".
-			$this->SoapClient->__getLastResponse()."\n";
+			trigger_error("Request Headers ===================================: \n".
+			$this->SoapClient->__getLastRequestHeaders() ."\n",E_USER_NOTICE);
+			trigger_error("Request===========================================: \n".
+			$this->SoapClient->__getLastRequest() ."\n",E_USER_NOTICE);
+			trigger_error("Response Headers ================================================: \n".
+			$this->SoapClient->__getLastResponseHeaders()."\n",E_USER_NOTICE);
+			trigger_error("Response ========================================================: \n".
+			$this->SoapClient->__getLastResponse()."\n",E_USER_NOTICE);
 
 		} catch ( Exception $e){
 			var_dump($this->SoapClient);
@@ -241,9 +263,9 @@ class F24Client {
 		if (defined($e->faultstring)){
 			$msg = $msg . "Error message: {$e->faultstring} ";
 		}
-
 		trigger_error( $msg, E_USER_ERROR);
 		var_dump($e);
+		
 	}
 
 	/**
