@@ -1,0 +1,26 @@
+{
+	"folders":
+	[
+		{
+			"path": "/home/moe/Sources/f24/src",
+			"name": "Sources"
+		},
+		{
+			"path": "res",
+			"name": "Ressources"	
+		},
+		{
+			"path": "lib",
+			"name": "Libraries"
+		}
+	],
+	"build_systems":
+	[
+		{
+			"name": "f24",
+   			"cmd": ["php", "-f", "$file", "-i 1000", "Dies ist ein Test des F24Clients auf php"],
+		    "file_regex": ".* at (.*) line ([0-9]*)",
+    		"selector": "source.php"
+		}
+	]
+}
