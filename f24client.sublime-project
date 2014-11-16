@@ -22,7 +22,7 @@
 	[
 		{
 			"name": "f24",
-   			"cmd": ["php", "-f", "$file", "--", "-d", "-uUserName842014", "-pzyBC!123","-i1000", "-mDies ist ein Test des F24Clients auf php"],
+   			"cmd": ["$file", "-d", "-uUserName842014", "-pzyBC!123","-i1000", "-mDies ist ein Test des F24Clients auf php"],
 		    "file_regex": ".* at (.*) line ([0-9]*)",
     		"selector": "source.php"
 		}
