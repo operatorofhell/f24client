@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/php
 <?php
 
 require ("lib/F24Client.php");
