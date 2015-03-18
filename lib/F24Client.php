@@ -34,8 +34,9 @@ class F24Client {
 	 * @var array
 	 */
 	private $soapData = array(
-		'url' => 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1?wsdl',
-		'ns'  => 'http://fwi.f24.com:8080/axis2/services/F24ActivationService1.1',
+		'url'      => 'https://fact.f24.com/axis2/services/F24ActivationService1.1?wsdl',
+		'ns'       => 'https://fact.f24.com/axis2/services/F24ActivationService1.1',
+		'location' => 'https://fact.f24.com/axis2/services/F24ActivationService1.1',
 	);
 
 	/**
@@ -150,6 +151,7 @@ class F24Client {
 				$this->soapData['url'],
 				array("trace" => 1, "exception" => 1)
 			);
+			$this->SoapClient->__setLocation($this->soapData['location']);
 			trigger_error('successfull instatiation of SOAP Client from URL: '.$this->soapData['url'], E_USER_NOTICE);
 		} catch (Exception $e) {
 			trigger_error("Create Soap Client error: ".$e->getMessage(), E_USER_ERROR);
