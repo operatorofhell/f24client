@@ -212,7 +212,7 @@ class F24Client {
 		$action = array(
 			'activationAlarmNumber' => $alarmId,
 			'variableMessages'      => array(
-				'language'             => 'DE',
+				'language'             => 'EN',
 				'languageContent'      => array(
 					'textVoice'           => $message,
 					'textSms'             => $message,
