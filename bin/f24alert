@@ -40,7 +40,7 @@ $f24 = new F24Client($options['u'], $options['p']);
 $f24->sendAlarm($options['i'], $options['m']);
 
 function print_usage() {
-	echo "Usage:	f24client [-d|-h] -u<username> -p<password> -i<alert id> -m\"<message>\"";
+	echo "Usage:	f24client [-d|-h] -u <username> -p <password> -i <alert id> -m '<message>'";
 	echo "\n";
 }
 
