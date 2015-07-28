@@ -1,0 +1,5 @@
+f24client (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- moe <moe@ar0102685.cns.muellergroup.com>  Thu, 19 Mar 2015 10:06:23 +0100

@@ -1,0 +1,18 @@
+--- a/bin/f24alert
++++ b/bin/f24alert
+@@ -1,7 +1,7 @@
+ #!/usr/bin/php
+ <?php
+ 
+-require ("lib/F24Client.php");
++require ("/usr/share/php/F24Client/F24Client.php");
+ 
+ error_reporting(E_ERROR|E_WARNING|E_PARSE);
+ 
+@@ -44,4 +44,4 @@
+ 	echo "\n";
+ }
+ 
+-?>
+\ No newline at end of file
++?>

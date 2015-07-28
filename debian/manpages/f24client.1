@@ -1,0 +1,49 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2015 moe <moe@ar0102685.cns.muellergroup.com>,
+.\"
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH F24CLIENT SECTION "March 19, 2015"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+f24client \- Activates Alert at Fact24 with speech synthesis
+.SH SYNOPSIS
+.B f24client
+.RI [ options ]
+.br
+.SH DESCRIPTION
+The f24client activates alerts at Fact24's alerting service. You have to provide username and password for login, a alert id 
+to raise, as well as a message to generate the alerts message
+.TP
+.B \-u
+username to login to F24 API 
+.TP
+.B \-p
+password to login to F24 API
+.TP
+.B \-i
+ID of the alert to raise
+.TP
+.B \-m
+your message to send
+.TP
+.B \-h
+shows help message
+.TP
+.B \-d
+turns error reporting to E_ALL
+.br
+.SH SEE ALSO
+.BR php (1),

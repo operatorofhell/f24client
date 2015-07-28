@@ -1,0 +1,14 @@
+Source: f24client
+Section: unknown
+Priority: extra
+Maintainer: Moritz Kraus <Moritz.Kraus@muellergroup.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+#Vcs-Git: git://git.debian.org/collab-maint/f24client.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/f24client.git;a=summary
+
+Package: f24client
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, php5-cli, php-soap
+Description: Client for fact24 alert activation
+ Client for Fact24 SOAP API alert activiation.
